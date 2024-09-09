@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Notion 2.0{% endblock %}</title>
+        <!-- Bootstrap Icons -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+        <!-- Google Poppins -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    </head>
+    <body> 
+        <header class="appbar" role="banner">
+            <button class="menu-btn" id="menu-btn"><i class="bi bi-list"></i></button>
+            <t class="app-title">Notion 2.0</h1>
+            <button class="settings-btn"><i class="bi bi-three-dots"></i></i></button>
+        </header>
+        <div class="container">
+            <aside class="sidebar" id="sidebar" aria-label="Sidebar">
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="{{ url_for('home') }}">
+                                <i class="bi bi-house-door"></i>
+                                <span class="nav-text">Home</span>
+                            </a>                        
+                        </li>
+                        <li>
+                            <a href="{{ url_for('tasks') }}">
+                                <i class="bi bi-file-earmark"></i>
+                                <span class="nav-text">Tasks</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('messenger') }}">
+                                <i class="bi bi-envelope"></i>
+                                <span class="nav-text">Messenger</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('calendar') }}">
+                                <i class="bi bi-calendar"></i>
+                                <span class="nav-text">Calendar</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                
+                <div class="divider"></div>
+
+                <button class="login-btn" onclick="authDialogOpen()">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    <span>Log In</span>
+                </button>
+            </aside>
+
+            <dialog class="auth-dialog" id="auth-dialog"> 
+                <div class="auth-dialog-container">
+                    <span class="auth-dialog-header">Sign in to Notion 2.0</span>
+                    <div class="auth-textfields">
+                        <textarea name="username" id="username"></textarea>
+                        <textarea name="password" id="password"></textarea>
+                    </div>
+                    <div class="dialog-actions">
+                        <button class="sign-in"></button>
+                    </div>
+                    <div class="not-registred">
+                        <span>Don't have Notion 2.0 account?<a href="">Sign Up</a></span>
+                    </div>
+                </div>
+            </dialog>
+            <main class="content" role="main">
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </body>
+</html>

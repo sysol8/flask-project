@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Tasks - Notion 2.0{% endblock %}
+
+{% block content %}
+
+<button class="add-btn" id="add-btn" onclick="taskDialogOpen()">
+    <i class="bi bi-plus-lg"></i>
+</button>
+
+<dialog class="task-dialog" id="task-dialog">
+    <form id="task-form" autocomplete="off">
+        <input type="text" id="input-name" placeholder="Task Name" required>
+        <input type="text" id="input-description" placeholder="Task Description (optional)">
+
+        <button type="submit">Submit</button>
+        <button type="button" id="close-dialog-btn">Cancel</button>
+    </form>
+</dialog>
+
+<div class="task-grid"></div>
+{% endblock %}
+

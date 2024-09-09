@@ -1,0 +1,363 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* appbar and its containments */
+
+.appbar {
+    background-color: #333333;
+    height: 55px;
+    color: white;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.app-title {
+    font-family: "Poppins", sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.menu-btn, .settings-btn {
+    border-style: hidden;
+    background: none;
+    height: 40px;
+    width: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.menu-btn:hover {
+    background-color: #505050;
+}
+
+.menu-btn i {
+    color: white;
+    font-size: 36px;
+}
+
+.settings-btn i {
+    color: white;
+    font-size: 24px;
+}
+
+.container {
+    display: flex;
+    height: calc(100vh - 55px);
+}
+
+/* sidebar */
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 200px;
+    background-color: #5f5f5f;
+    color: white;
+    padding: 10px;
+    transition: width 0.3s;
+    overflow: hidden;
+    overflow-x: hidden;
+}
+
+.sidebar.collapsed {
+    width: 60px;
+}
+
+.sidebar nav {
+    flex-grow: 1;
+}
+
+.sidebar .divider {
+    border-top: 1px solid #707070;
+    margin: 10px 0;
+}
+
+.sidebar nav ul {
+    list-style-type: none;
+}
+
+.sidebar nav ul li {
+    display: block;
+}
+
+.sidebar nav ul li a {
+    height: 40px;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    font-family: "Poppins", sans-serif;
+}
+
+.sidebar nav ul li a:hover {
+    background-color: #505050;
+    border-radius: 10px;
+}
+
+.sidebar nav ul li a i {
+    font-size: 22px;
+    flex-shrink: 0;
+    width: 40px;
+    text-align: center;
+}
+
+.sidebar nav ul li a span {
+    font-size: 18px;
+    font-weight: 300;
+    overflow: hidden;
+}
+
+.login-btn {
+    background: none;
+    border-style: none;
+    color: white;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    font-family: "Poppins", sans-serif;
+    justify-content: flex-start;
+    padding: 0px;
+    cursor: pointer;
+}
+
+.login-btn i {
+    font-size: 22px;
+    flex-shrink: 0;
+    width: 40px;
+    text-align: center;
+}
+
+.login-btn span {
+    font-size: 18px;
+    font-weight: 300;
+    overflow: hidden;
+}
+
+.login-btn:hover {
+    background-color: #505050;
+    border-radius: 10px;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+/* home page content */
+
+.news-feed {
+    width: 400px;
+    height: 400px;
+}
+
+/* task page content */
+
+.add-btn {
+    position: absolute;
+    top: 75px;
+    right: 20px;
+    border-style: hidden;
+    border-radius: 10px;
+    background-color: #333;
+    height: 40px;
+    width: 40px;
+    cursor: pointer;
+    margin: 0px;
+    padding: 0px;
+}
+
+.add-btn i {
+    color: white;
+    font-size: 24px;
+}
+
+.task-dialog {
+    padding: 10px;
+    width: 300px;
+    max-height: 450px;
+    border: none;
+    border-radius: 10px;
+    background-color: #5f5f5f;
+    color: white;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.task-dialog form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.task-dialog input[type="text"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #444;
+    color: white;
+}
+
+.task-dialog button {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #333;
+    color: white;
+    cursor: pointer;
+}
+
+.task-dialog button:hover {
+    background-color: #444;
+}
+
+.task-dialog input::placeholder {
+    color: #aaa;
+}
+
+.task-card {
+    background-color: #444;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    position: relative;
+    transition: box-shadow 0.3s ease;
+    margin-bottom: 15px;
+    overflow: hidden;
+    word-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.task-card:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.task-content {
+    margin-right: 40px; /* Оставляем место для кнопок */
+}
+
+.task-actions {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 10px;
+    visibility: hidden;
+}
+
+.task-card:hover .task-actions {
+    visibility: visible; 
+}
+
+.task-actions button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 20px;
+    transition: color 0.3s ease;
+}
+
+.task-actions button:hover {
+    color: #ff6961;
+}
+
+.task-card.edit-mode .task-actions {
+    visibility: visible;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    top: 10px;
+    right: 10px;
+    transform: none;
+}
+
+.task-card.edit-mode .delete-btn {
+    display: none; 
+}
+
+.task-card.edit-mode .edit-btn {
+    font-size: 20px;
+}
+
+.task-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+input.task-name-input, textarea.task-description-textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    color: #333;
+    background-color: #e6e6e6;
+    resize: none;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.task-card.edit-mode input.task-name-input, .task-card.edit-mode textarea.task-description-textarea {
+    background-color: #ccc;
+    color: #000;
+    border: 1px solid #aaa;
+}
+
+input.task-name-input:focus, textarea.task-description-textarea:focus {
+    outline: none;
+    background-color: #ddd;
+}
+
+/* authorization */
+
+.auth-dialog {
+    height: 350px;
+    width: 250px;
+    align-self: center;
+    place-self: center;
+    margin: 10px;
+    padding: 10px;
+}
+
+.auth-textfields {
+    place-content: center;
+    align-items: center;
+}
+
+.auth-textfields textarea {
+    resize: none;
+    width: 200px;
+}
+
+.auth-dialog-header {
+    font-family: "Poppins", sans-serif;
+    font-size: 22px;
+    text-align: center;
+}
+
+
+
+
+
+
+
