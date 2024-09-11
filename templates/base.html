@@ -18,7 +18,7 @@
         <header class="appbar" role="banner">
             <button class="menu-btn" id="menu-btn"><i class="bi bi-list"></i></button>
             <t class="app-title">Notion 2.0</h1>
-            <button class="settings-btn"><i class="bi bi-three-dots"></i></i></button>
+            <button class="settings-btn"><i class="bi bi-three-dots"></i></button>
         </header>
         <div class="container">
             <aside class="sidebar" id="sidebar" aria-label="Sidebar">
@@ -53,27 +53,96 @@
                 
                 <div class="divider"></div>
 
-                <button class="login-btn" onclick="authDialogOpen()">
-                    <i class="bi bi-box-arrow-in-right"></i>
-                    <span>Log In</span>
+                <button class="login-btn" id="login-btn">
+                    {% if isLoggedIn %}
+                        <i class="bi bi-box-arrow-left" style="transform: rotate(180deg);"></i>
+                        <span>Log Out</span>
+                    {% else %}
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        <span>Log In</span>
+                    {% endif %}
                 </button>
+                
+                <input type="hidden" id="is-logged-in" value="{{ isLoggedIn | tojson }}">
+                
+                <script>
+                    const isLoggedIn = document.getElementById('is-logged-in').value;
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const loginDialog = document.getElementById('auth-dialog');
+                        const registerDialog = document.getElementById('register-dialog');
+                        const loginBtn = document.getElementById('login-btn');
+                
+                        if (isLoggedIn) {
+                            loginBtn.addEventListener('click', () => {
+                                window.location.href = "{{ url_for('logout') }}";
+                            });
+                        } else {
+                            loginBtn.addEventListener('click', () => {
+                                loginDialog.showModal();
+                            });
+                        }
+                
+                        window.showRegisterForm = function() {
+                            loginDialog.close();
+                            registerDialog.showModal();
+                        };
+                
+                        window.showLoginForm = function() {
+                            registerDialog.close();
+                            loginDialog.showModal();
+                        };
+                    });
+                </script>
             </aside>
 
             <dialog class="auth-dialog" id="auth-dialog"> 
+                <form id="auth-form" action="{{url_for('login')}}" method="post">
+                    <div class="auth-dialog-container">
+                        <span class="auth-dialog-header">Sign in to Notion 2.0</span>
+                        <input 
+                            type="text"
+                            name="username"
+                            placeholder="Username"
+                            class="input-field"
+                            required
+                        >
+                        <input 
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            class="input-field"
+                            required
+                        >
+                        <input type="submit" value="Login" class="btn btn-login">
+                        <input type="button" value="Register" class="btn btn-register" onclick="showRegisterForm()">
+                    </div>
+                </form>
+            </dialog>
+
+            <dialog class="auth-dialog" id="register-dialog"> 
                 <div class="auth-dialog-container">
-                    <span class="auth-dialog-header">Sign in to Notion 2.0</span>
-                    <div class="auth-textfields">
-                        <textarea name="username" id="username"></textarea>
-                        <textarea name="password" id="password"></textarea>
-                    </div>
-                    <div class="dialog-actions">
-                        <button class="sign-in"></button>
-                    </div>
-                    <div class="not-registred">
-                        <span>Don't have Notion 2.0 account?<a href="">Sign Up</a></span>
-                    </div>
+                    <span class="auth-dialog-header">Register to Notion 2.0</span>
+                    <form id="register-form" action="{{url_for('register')}}" method="post">
+                        <input 
+                            type="text"
+                            name="username"
+                            placeholder="Username"
+                            class="input-field"
+                            required
+                        >
+                        <input 
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            class="input-field"
+                            required
+                        >
+                        <input type="submit" value="Register" class="btn btn-register">
+                        <input type="button" value="Back to Login" class="btn btn-login" onclick="showLoginForm()">
+                    </form>
                 </div>
             </dialog>
+
             <main class="content" role="main">
                 {% block content %}{% endblock %}
             </main>

@@ -1,3 +1,5 @@
+// sidebar logic (toggle/collapse) 
+
 const sidebar = document.getElementById('sidebar');
 
 const saveSidebarState = (isCollapsed) => {
@@ -21,12 +23,9 @@ window.addEventListener('load', () => {
 
 document.getElementById('menu-btn').addEventListener('click', toggleSidebar);
 
-const authDialogOpen = () => {
-    const authDialog = document.getElementById('auth-dialog');
-    authDialog.showModal();
-};
+// task dialog
 
-const taskDialogOpen = () => {
+/* const taskDialogOpen = () => {
     const taskDialog = document.getElementById('task-dialog');
     taskDialog.showModal();
 };
@@ -120,6 +119,6 @@ class Task {
             this.element.remove();
         }
     }
-}
+} */
 
-
+// auth
