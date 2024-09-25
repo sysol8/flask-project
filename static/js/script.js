@@ -1,124 +1,96 @@
-// sidebar logic (toggle/collapse) 
-
 const sidebar = document.getElementById('sidebar');
 
-const saveSidebarState = (isCollapsed) => {
-    localStorage.setItem('collapsed', isCollapsed);
-};
-
-const applySidebarState = () => {
-    const isCollapsed = localStorage.getItem('collapsed');
-    if (isCollapsed) {
-        sidebar.style.width = isCollapsed;
-    }
-};
-
 const toggleSidebar = () => {
-    sidebar.classList.toggle('collapsed');
+    const isCollapsed = sidebar.classList.toggle('collapsed');
 };
-
-window.addEventListener('load', () => {
-    applySidebarState();
-});
 
 document.getElementById('menu-btn').addEventListener('click', toggleSidebar);
 
-// task dialog
+const activePage = window.location.pathname;
+const navLinks = document.querySelectorAll('nav a');
 
-/* const taskDialogOpen = () => {
-    const taskDialog = document.getElementById('task-dialog');
-    taskDialog.showModal();
+navLinks.forEach(link => {
+  if (link.pathname === activePage) {
+    link.classList.add('active');
+
+    const icon = link.querySelector('i');
+
+    if (icon) {
+      if (icon.id === 'home-icon') {
+        icon.classList.replace('bi-house-door', 'bi-house-door-fill');
+      } else if (icon.id === 'tasks-icon') {
+        icon.classList.replace('bi-file-earmark', 'bi-file-earmark-fill');
+      } else if (icon.id === 'messenger-icon') {
+        icon.classList.replace('bi-envelope', 'bi-envelope-fill');
+      } else if (icon.id === 'calendar-icon') {
+        icon.classList.replace('bi-calendar', 'bi-calendar-fill');
+      }
+    }
+  }
+});
+
+document.querySelector('nav i').classList.contains('active')
+
+document.getElementById('show-login-dialog')?.addEventListener('click', function () {
+    document.getElementById('auth-dialog').showModal();
+});
+
+document.getElementById('logout-btn')?.addEventListener('click', function () {
+    const form = document.createElement('form');
+    form.method = 'GET';
+    form.action = '/logout';
+    document.body.appendChild(form);
+    form.submit();
+});
+
+const showTaskDialog = () => {
+    const taskDialog = document.getElementById('task-dialog')
+    taskDialog.showModal()
 };
 
 document.getElementById('close-dialog-btn').addEventListener('click', () => {
-    const taskDialog = document.getElementById('task-dialog');
-    taskDialog.close();
+    document.getElementById('task-dialog').close();
 });
 
-const taskForm = document.getElementById('task-form');
-
-taskForm.addEventListener('submit', (event) => {
+document.getElementById('task-form').addEventListener('submit', function (event) {
     event.preventDefault();
 
     const taskName = document.getElementById('input-name').value;
     const taskDescription = document.getElementById('input-description').value;
+    const taskStatus = document.getElementById('status-select').value;
 
-    const newTask = new Task(taskName, taskDescription);
+    const taskData = {
+        name: taskName,
+        description: taskDescription,
+        status: taskStatus
+    };
 
-    const taskGrid = document.querySelector('.task-grid');
-    taskGrid.appendChild(newTask.render());
-
-    const taskDialog = document.getElementById('task-dialog');
-    taskDialog.close();
-
-    taskForm.reset();
+    fetch('/tasks/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(taskData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        addTaskCard(data.name, data.description, data.status);
+        document.getElementById('task-dialog').close();
+        document.getElementById('task-form').reset();
+    })
+    .catch(error => console.error('Error:', error));
 });
 
-class Task {
-    constructor(name, description) {
-        this.name = name;
-        this.description = description;
-        this.element = null; 
-        this.isEditing = false; 
-    }
-
-    render() {
-        const taskCard = document.createElement('div');
-        taskCard.classList.add('task-card');
-        taskCard.innerHTML = `
-            <div class="task-content">
-                <h3 class="task-name">${this.name}</h3>
-                <p class="task-description">${this.description}</p>
-            </div>
-            <div class="task-actions">
-                <button class="edit-btn"><i class="bi bi-pencil-square"></i></button>
-                <button class="delete-btn"><i class="bi bi-trash"></i></button>
-            </div>
-        `;
-
-        this.element = taskCard;
-
-        taskCard.querySelector('.edit-btn').addEventListener('click', () => this.toggleEditMode());
-        taskCard.querySelector('.delete-btn').addEventListener('click', () => this.delete());
-
-        return taskCard;
-    }
-
-    toggleEditMode() {
-        const editBtnIcon = this.element.querySelector('.edit-btn i');
-
-        if (this.isEditing) {
-            const nameInput = this.element.querySelector('.task-name-input');
-            const descriptionTextarea = this.element.querySelector('.task-description-textarea');
-
-            this.name = nameInput.value;
-            this.description = descriptionTextarea.value;
-
-            this.element.querySelector('.task-content').innerHTML = `
-                <h3 class="task-name">${this.name}</h3>
-                <p class="task-description">${this.description}</p>
-            `;
-
-            editBtnIcon.classList.replace('bi-check', 'bi-pencil-square');
-
-            this.isEditing = false;
-        } else {
-            this.element.querySelector('.task-content').innerHTML = `
-                <input type="text" class="task-name-input" value="${this.name}">
-                <textarea class="task-description-textarea">${this.description}</textarea>
-            `;
-
-            editBtnIcon.classList.replace('bi-pencil-square', 'bi-check');
-
-            this.isEditing = true;
-        }
-    }
-
-    delete() {
-        if (this.element) {
-            this.element.remove();
-        }
-    }
-} */
-
-// auth
+const addTaskCard = (name, description, status) => {
+    const taskGrid = document.querySelector('.task-grid');
+    const taskCard = document.createElement('div');
+    taskCard.classList.add('task-card');
+    taskCard.innerHTML = `
+        <div class="task-content">
+            <h3>${name}</h3>
+            <p>${description}</p>
+            <p><strong>Status:</strong> ${status}</p>
+        </div>
+    `;
+    taskGrid.appendChild(taskCard);
+};

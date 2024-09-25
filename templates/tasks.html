@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<button class="add-btn" id="add-btn" onclick="taskDialogOpen()">
+<button class="add-btn" id="btn-add-task" onclick="showTaskDialog()">
     <i class="bi bi-plus-lg"></i>
 </button>
 
@@ -13,11 +13,28 @@
         <input type="text" id="input-name" placeholder="Task Name" required>
         <input type="text" id="input-description" placeholder="Task Description (optional)">
 
+        <label for="status-select">Status:</label>
+        <select id="status-select" required>
+            <option value="In Progress">In Progress</option>
+            <option value="Completed">Completed</option>
+            <option value="Overdue">Overdue</option>
+        </select>
+
         <button type="submit">Submit</button>
         <button type="button" id="close-dialog-btn">Cancel</button>
     </form>
 </dialog>
 
-<div class="task-grid"></div>
+<div class="task-grid">
+    {% for task in tasks %}
+    <div class="task-card">
+        <div class="task-content">
+            <h3>{{ task.title }}</h3>
+            <p>{{ task.description }}</p>
+            <p><strong>Status:</strong> {{ task.status }}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}
 

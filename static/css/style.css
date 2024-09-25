@@ -68,6 +68,13 @@ body {
     overflow: hidden;
     overflow-x: hidden;
 }
+.sidebar nav a.active i {
+    color: white;
+}
+
+.sidebar nav a.active span {
+    font-weight: 500;
+}
 
 .sidebar.collapsed {
     width: 60px;
@@ -249,7 +256,7 @@ body {
 }
 
 .task-content {
-    margin-right: 40px; /* Оставляем место для кнопок */
+    margin-right: 40px;
 }
 
 .task-actions {
@@ -331,18 +338,23 @@ input.task-name-input:focus, textarea.task-description-textarea:focus {
 /* authorization */
 
 .auth-dialog {
-    width: 400px;
+    padding: 20px;
+    width: 300px;
     border: none;
     border-radius: 10px;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    position: relative;
+    background-color: #5f5f5f;
+    color: white;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 450px;
 }
 
 .auth-dialog-container {
     display: flex;
     flex-direction: column;
+    gap: 10px;
     align-items: center;
 }
 
@@ -350,15 +362,21 @@ input.task-name-input:focus, textarea.task-description-textarea:focus {
     font-size: 1.5rem;
     margin-bottom: 20px;
     text-align: center;
+    color: white;
 }
 
 .input-field {
     width: 100%;
     padding: 10px;
-    margin: 10px 0;
     border-radius: 5px;
-    border: 1px solid #ccc;
+    border: none;
+    background-color: #444;
+    color: white;
     font-size: 1rem;
+}
+
+.input-field::placeholder {
+    color: #aaa;
 }
 
 .btn {
@@ -367,22 +385,23 @@ input.task-name-input:focus, textarea.task-description-textarea:focus {
     width: 100%;
     border: none;
     border-radius: 5px;
+    background-color: #333;
+    color: white;
     font-size: 1rem;
     cursor: pointer;
 }
 
 .btn-login {
-    background-color: #007bff;
-    color: white;
+    background-color: #6d6d6d;
 }
 
 .btn-register {
-    background-color: #28a745;
-    color: white;
+    background-color: #4b4b4b;
 }
 
 .btn-login:hover,
 .btn-register:hover {
+    background-color: #444;
     opacity: 0.9;
 }
 

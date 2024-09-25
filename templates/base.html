@@ -4,6 +4,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}Notion 2.0{% endblock %}</title>
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
         <!-- Bootstrap Icons -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -26,75 +28,42 @@
                     <ul>
                         <li>
                             <a href="{{ url_for('home') }}">
-                                <i class="bi bi-house-door"></i>
+                                <i class="bi bi-house-door" id="home-icon"></i>
                                 <span class="nav-text">Home</span>
                             </a>                        
                         </li>
                         <li>
                             <a href="{{ url_for('tasks') }}">
-                                <i class="bi bi-file-earmark"></i>
+                                <i class="bi bi-file-earmark" id="tasks-icon"></i>
                                 <span class="nav-text">Tasks</span>
                             </a>
                         </li>
                         <li>
                             <a href="{{ url_for('messenger') }}">
-                                <i class="bi bi-envelope"></i>
+                                <i class="bi bi-envelope" id="messenger-icon"></i>
                                 <span class="nav-text">Messenger</span>
                             </a>
                         </li>
                         <li>
                             <a href="{{ url_for('calendar') }}">
-                                <i class="bi bi-calendar"></i>
+                                <i class="bi bi-calendar" id="calendar-icon"></i>
                                 <span class="nav-text">Calendar</span>
                             </a>
                         </li>
                     </ul>
                 </nav>
-                
                 <div class="divider"></div>
-
-                <button class="login-btn" id="login-btn">
-                    {% if isLoggedIn %}
-                        <i class="bi bi-box-arrow-left" style="transform: rotate(180deg);"></i>
+                {% if session.get('username') %}
+                    <button type="button" class="login-btn" id="logout-btn">
+                        <i class="bi bi-box-arrow-left"></i>
                         <span>Log Out</span>
-                    {% else %}
+                    </button>
+                {% else %}
+                    <button type="button" class="login-btn" id="show-login-dialog">
                         <i class="bi bi-box-arrow-in-right"></i>
                         <span>Log In</span>
-                    {% endif %}
-                </button>
-                
-                <input type="hidden" id="is-logged-in" value="{{ isLoggedIn | tojson }}">
-                
-                <script>
-                    const isLoggedIn = document.getElementById('is-logged-in').value;
-                    document.addEventListener('DOMContentLoaded', function() {
-                        const loginDialog = document.getElementById('auth-dialog');
-                        const registerDialog = document.getElementById('register-dialog');
-                        const loginBtn = document.getElementById('login-btn');
-                
-                        if (isLoggedIn) {
-                            loginBtn.addEventListener('click', () => {
-                                window.location.href = "{{ url_for('logout') }}";
-                            });
-                        } else {
-                            loginBtn.addEventListener('click', () => {
-                                loginDialog.showModal();
-                            });
-                        }
-                
-                        window.showRegisterForm = function() {
-                            loginDialog.close();
-                            registerDialog.showModal();
-                        };
-                
-                        window.showLoginForm = function() {
-                            registerDialog.close();
-                            loginDialog.showModal();
-                        };
-                    });
-                </script>
-            </aside>
-
+                    </button>
+                {% endif %}
             <dialog class="auth-dialog" id="auth-dialog"> 
                 <form id="auth-form" action="{{url_for('login')}}" method="post">
                     <div class="auth-dialog-container">
@@ -114,35 +83,11 @@
                             required
                         >
                         <input type="submit" value="Login" class="btn btn-login">
-                        <input type="button" value="Register" class="btn btn-register" onclick="showRegisterForm()">
+                        <input type="button" value="Register" class="btn btn-register">
                     </div>
                 </form>
             </dialog>
-
-            <dialog class="auth-dialog" id="register-dialog"> 
-                <div class="auth-dialog-container">
-                    <span class="auth-dialog-header">Register to Notion 2.0</span>
-                    <form id="register-form" action="{{url_for('register')}}" method="post">
-                        <input 
-                            type="text"
-                            name="username"
-                            placeholder="Username"
-                            class="input-field"
-                            required
-                        >
-                        <input 
-                            type="password"
-                            name="password"
-                            placeholder="Password"
-                            class="input-field"
-                            required
-                        >
-                        <input type="submit" value="Register" class="btn btn-register">
-                        <input type="button" value="Back to Login" class="btn btn-login" onclick="showLoginForm()">
-                    </form>
-                </div>
-            </dialog>
-
+        </aside>
             <main class="content" role="main">
                 {% block content %}{% endblock %}
             </main>
